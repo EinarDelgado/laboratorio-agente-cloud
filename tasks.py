@@ -5,7 +5,8 @@ def agregar_tarea(tareas, titulo, categoria="general"):
     categoria = categoria.strip()
     if not categoria:
         raise ValueError("La categoría es obligatoria")
-    tarea = {"id": len(tareas) + 1, "titulo": titulo, "categoria": categoria, "completada": False}
+    nuevo_id = max((t["id"] for t in tareas), default=0) + 1
+    tarea = {"id": nuevo_id, "titulo": titulo, "categoria": categoria, "completada": False}
     tareas.append(tarea)
     return tarea
 

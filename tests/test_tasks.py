@@ -70,6 +70,15 @@ class TestEliminar(unittest.TestCase):
             eliminar_tarea(self.tareas, 99)
         self.assertEqual(len(self.tareas), 3)
 
+    def test_ids_no_se_repiten_despues_de_eliminar(self):
+        eliminar_tarea(self.tareas, 2)
+        nueva = agregar_tarea(self.tareas, "D")
+        ids = [t["id"] for t in self.tareas]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(nueva["id"], 4)
+        completar_tarea(self.tareas, 4)
+        self.assertEqual([t["titulo"] for t in self.tareas if t["completada"]], ["D"])
+
 
 if __name__ == "__main__":
     unittest.main()
