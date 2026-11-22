@@ -1,5 +1,5 @@
 import unittest
-from tasks import agregar_tarea, completar_tarea, pendientes
+from tasks import agregar_tarea, completar_tarea, eliminar_tarea, pendientes
 
 
 class TestTasks(unittest.TestCase):
@@ -52,6 +52,23 @@ class TestCategorias(unittest.TestCase):
             with self.subTest(categoria=categoria):
                 with self.assertRaises(ValueError):
                     pendientes(self.tareas, categoria)
+
+
+class TestEliminar(unittest.TestCase):
+    def setUp(self):
+        self.tareas = []
+        for titulo in ("A", "B", "C"):
+            agregar_tarea(self.tareas, titulo)
+
+    def test_eliminar_id_existente(self):
+        eliminada = eliminar_tarea(self.tareas, 2)
+        self.assertEqual(eliminada["titulo"], "B")
+        self.assertEqual([t["titulo"] for t in pendientes(self.tareas)], ["A", "C"])
+
+    def test_eliminar_id_inexistente_lanza_value_error(self):
+        with self.assertRaises(ValueError):
+            eliminar_tarea(self.tareas, 99)
+        self.assertEqual(len(self.tareas), 3)
 
 
 if __name__ == "__main__":
