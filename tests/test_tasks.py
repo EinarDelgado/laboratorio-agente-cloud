@@ -44,6 +44,15 @@ class TestCategorias(unittest.TestCase):
     def test_sin_categoria_devuelve_todas_las_pendientes(self):
         self.assertEqual(len(pendientes(self.tareas)), 3)
 
+    def test_filtrar_categoria_inexistente_devuelve_lista_vacia(self):
+        self.assertEqual(pendientes(self.tareas, "Matemáticas"), [])
+
+    def test_filtrar_categoria_vacia_lanza_value_error(self):
+        for categoria in ("", "   "):
+            with self.subTest(categoria=categoria):
+                with self.assertRaises(ValueError):
+                    pendientes(self.tareas, categoria)
+
 
 if __name__ == "__main__":
     unittest.main()

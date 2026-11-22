@@ -22,5 +22,7 @@ def pendientes(tareas, categoria=None):
     resultado = [t for t in tareas if not t["completada"]]
     if categoria is not None:
         buscada = categoria.strip().casefold()
+        if not buscada:
+            raise ValueError("La categoría para filtrar no puede estar vacía")
         resultado = [t for t in resultado if t["categoria"].casefold() == buscada]
     return resultado
